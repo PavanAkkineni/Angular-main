@@ -14,6 +14,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 
@@ -57,6 +58,7 @@ import { LoginComponent } from './login/login.component';
     MatGridListModule,
     MatSelectModule,
     MatSlideToggleModule,
+    MatProgressSpinnerModule,
     MatCardModule,
     MatButtonModule,
     MatDialogModule,
