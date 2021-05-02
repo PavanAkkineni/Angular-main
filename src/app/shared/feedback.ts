@@ -9,3 +9,8 @@ export class Feedback {
 };
 
 export const ContactType = ['None', 'Tel', 'Email'];
+
+export class Feedback1 {
+  firstname: string;
+  message: string;
+};

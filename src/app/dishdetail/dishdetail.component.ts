@@ -1,33 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { Params , ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { Dish } from '../shared/dish';
 import { DishService } from '../services/dish.service';
 import { switchMap } from 'rxjs/operators';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
-import { Feedback } from '../shared/feedback';
+import { Feedback1 } from '../shared/feedback';
 @Component({
   selector: 'app-dishdetail',
   templateUrl: './dishdetail.component.html',
   styleUrls: ['./dishdetail.component.scss']
 })
 export class DishdetailComponent implements OnInit {
-
-
-  dish: Dish;
-  dishIds: string[];
-  prev: string;
-  next: string;
-
   feedbackForm: FormGroup;
-  feedback: Feedback;
-  contactType = ContactType;
+  feedback: Feedback1;
   @ViewChild('fform') feedbackFormDirective;
 
   formErrors = {
-    'firstname': '',
-    'rating': ''
+    'firstname': ''
   };
 
   validationMessages = {
@@ -36,26 +26,26 @@ export class DishdetailComponent implements OnInit {
       'minlength':     'First Name must be at least 2 characters long.',
       'maxlength':     'FirstName cannot be more than 25 characters long.'
     },
-    'rating': {
-      'required':      'rating is required.',
-      'minlength':     'Minimum rating should be 1',
-      'maxlength':     'Maximum rating should be 5'
-    },
-
   };
+
+
+  dish: Dish;
+  dishIds: string[];
+  prev: string;
+  next: string;
 
 
   constructor(private dishService: DishService,
     private route: ActivatedRoute,
-    private location: Location) { }
+    private location: Location,
+    private fb: FormBuilder,
+    @Inject('BaseURL') private BaseURL) { }
 
-  ngOnInit() {
-    this.dishService.getDishIds()
-    .subscribe((dishIds) => this.dishIds = dishIds);
-    this.route.params
-    .pipe(switchMap(params: Params) => this.dishService.getDish(params['id']));
-    .subscribe(dish =>{ this.dish = dish; this.setPrevNext(dish.id); });
-  }
+    ngOnInit() {
+      this.dishService.getDishIds().subscribe(dishIds => this.dishIds = dishIds);
+      this.route.params.pipe(switchMap((params: Params) => this.dishService.getDish(params['id'])))
+      .subscribe(dish => { this.dish = dish; this.setPrevNext(dish.id); });
+    }
 
   setPrevNext(dishId: string){
     const index = this.dishIds.indexOf(dishId);
@@ -66,11 +56,11 @@ export class DishdetailComponent implements OnInit {
   goBack(): void {
     this.location.back();
   }
-
   createForm() {
     this.feedbackForm = this.fb.group({
       firstname: ['',[ Validators.required ,Validators.minLength(2),Validators.maxLength(25)]],
-      rating: ['', [Validators.required,Validators.minValue="1",Validators.maxValue="5" ] ],
+
+      message: ''
     });
 
     this.feedbackForm.valueChanges
@@ -105,10 +95,13 @@ export class DishdetailComponent implements OnInit {
     console.log(this.feedback);
     this.feedbackForm.reset({
       firstname: '',
-      rating:'',
-      comment: ''
+
+      message: ''
     });
     this.feedbackFormDirective.resetForm();
   }
+
+
+
 
 }

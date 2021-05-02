@@ -13,7 +13,7 @@
             <h3>{{dish.name | uppercase}}</h3>
           </mat-card-title>
         </mat-card-header>
-        <img mat-card-image src={{dish.image}} alt={{dish.name}}>
+        <img mat-card-image src="{{BaseURL + dish.image}}" alt={{dish.name}}>
         <mat-card-content>
           <p>{{dish.description}}
           </p>
@@ -38,32 +38,32 @@
 
 
 </div>
-<div class="container"
-    fxLayout="row"
-    fxLayout.sm="column"
-    fxLayout.xs="column"
-    fxLayoutAlign.gt-md="space-around center"
-    fxLayoutGap="10px"
-    fxLayoutGap.xs="0">
 
-    <form novalidate [formGroup]="feedbackForm" #fform="ngForm" (ngSubmit)="onSubmit()">
-      <p>
-        <mat-form-field class="half-width">
-          <input matInput formControlName="authorname" placeholder="Author Name" type="text">
-          <mat-error *ngIf="fromErrors.authorname">
-            {{ fromErrors.authorname}}
-          </mat-error>
-        </mat-form-field>
-        <mat-form-field class="half-width">
-          <mat-slider matInput formControlName="rating" vertical min="1" max="5" step="0.5" value="1.5"></mat-slider>
-        </mat-form-field>
-      </p>
-      <p>
-        <mat-form-field class="full-width">
-          <textarea matInput formControlName="comments" placeholder="Your Comments" rows=12></textarea>
-        </mat-form-field>
-      </p>
-      <button type="submit" mat-button class="background-primary text-floral-white"
-      [disabled]="feedbackForm.invalid">Submit</button>
-    </form>
+<div class="container"
+  fxLayout="column"
+  fxLayoutGap="10px">
+<div fxFlex fxFlexOffset="20px" class="form-size">
+
+  <p>{{ feedbackForm.value | json }} {{ feedbackForm.status | json }}</p>
+
+  <form novalidate [formGroup]="feedbackForm" #fform="ngForm" (ngSubmit)="onSubmit()">
+    <p>
+      <mat-form-field class="half-width">
+        <input matInput formControlName="firstname" placeholder="Name" type="text" required>
+        <mat-error *ngIf="fromErrors.firstname">
+          {{ fromErrors.firstname}}
+        </mat-error>
+      </mat-form-field>
+    </p>
+
+
+    <p>
+      <mat-form-field class="full-width">
+        <textarea matInput formControlName="message" placeholder="Your Comment" rows=12></textarea>
+      </mat-form-field>
+    </p>
+    <button type="submit" mat-button class="background-primary text-floral-white"
+    [disabled]="feedbackForm.invalid">Submit</button>
+  </form>
+</div>
 </div>
